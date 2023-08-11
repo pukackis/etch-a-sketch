@@ -1,0 +1,13 @@
+.sketch_container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  border: solid 20px black;
+  width: 960px;
+  height: 960px;
+}
+
+.gridsquare {
+  outline: solid 2px black;
+  /* background: black; */
+}
