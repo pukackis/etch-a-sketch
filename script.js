@@ -35,10 +35,18 @@ function generateGrid(value) {
 // generateGrid function is responsible for grid generation, used nested loops to ensure that rows and columns are filled exactly as intended
 
 //Add an event listener for the 'mouseover' event on the sketch container
-sketchContainer.addEventListener("mouseover", function (event) {
+sketchContainer.addEventListener("mousedown", () => {
+  sketchContainer.addEventListener("mouseover", colorBlack);
+});
+
+sketchContainer.addEventListener("mouseup", () => {
+  sketchContainer.removeEventListener("mouseover", colorBlack);
+});
+
+function colorBlack(event) {
   //Check if the element that triggered the event has the gridsquare class
   if (event.target.classList.contains("gridsquare")) {
     //Change the background color of a single square to black
     event.target.style.backgroundColor = "black";
   }
-});
+}
