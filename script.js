@@ -22,8 +22,8 @@ function generateGrid(value) {
       for (let j = 0; j < value; j++) {
         let gridSquare = document.createElement("div");
         gridSquare.classList.add("gridsquare");
-        gridSquare.style.height = `${720 / value}px`; // Set height using style property
-        gridSquare.style.width = `${720 / value}px`; // Set width using style property
+        gridSquare.style.height = `${500 / value}px`; // Set height using style property
+        gridSquare.style.width = `${500 / value}px`; // Set width using style property
         sketchContainer.appendChild(gridSquare);
       } // generates columns in one dimension
     }
@@ -31,21 +31,32 @@ function generateGrid(value) {
     alert("Invalid input, please use numbers between 1 and 100");
   }
 }
-
 // generateGrid function is responsible for grid generation, used nested loops to ensure that rows and columns are filled exactly as intended
 
-//Add an event listener for the 'mouseover' event on the sketch container
-sketchContainer.addEventListener("mousedown", () => {
+let isDrawing = false;
+
+document.addEventListener("mousedown", () => {
+  isDrawing = true;
+  clearSelection();
   sketchContainer.addEventListener("mouseover", colorBlack);
 });
 
-sketchContainer.addEventListener("mouseup", () => {
+document.addEventListener("mouseup", () => {
+  isDrawing = false;
   sketchContainer.removeEventListener("mouseover", colorBlack);
 });
 
+function clearSelection() {
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges();
+  } else if (document.selection) {
+    document.selection.empty();
+  }
+}
+
 function colorBlack(event) {
   //Check if the element that triggered the event has the gridsquare class
-  if (event.target.classList.contains("gridsquare")) {
+  if (isDrawing && event.target.classList.contains("gridsquare")) {
     //Change the background color of a single square to black
     event.target.style.backgroundColor = "black";
   }
