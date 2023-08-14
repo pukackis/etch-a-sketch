@@ -7,9 +7,9 @@ body {
   margin: 0;
 }
 
-* {
+/* * {
   outline: solid 3px red;
-}
+} */
 
 .header {
   display: flex;
@@ -28,6 +28,8 @@ body {
   gap: 30px;
 }
 .menu {
+  display: flex;
+  flex-direction: column;
   border: solid 10px #222831;
   border-radius: 20px;
   height: 500px;
@@ -46,13 +48,9 @@ body {
 }
 
 .gridsquare {
-  outline: solid 1px rgba(204, 204, 204, 0.226);
+  background: #eeeeee;
 }
-
 .footer {
-  /* display: flex;
-  justify-content: center;
-  color: #e3e3e3;*/
   text-align: center;
   background: #222831;
   color: #eeeeee;
