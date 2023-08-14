@@ -1,10 +1,16 @@
 "use strict";
 
+let grid = false;
+
 const sketchContainer = document.querySelector(".sketch_container");
 
-const startButton = document.querySelector("#startBTN");
+const startButton = document
+  .querySelector("#start")
+  .addEventListener("click", buttonPrompt);
 
-startButton.addEventListener("click", buttonPrompt);
+const toggleGridButton = document
+  .querySelector("#toggle_grid")
+  .addEventListener("click", toggleGrid);
 
 function buttonPrompt() {
   //Clears sketching area before starting
@@ -33,16 +39,12 @@ function generateGrid(value) {
 }
 // generateGrid function is responsible for grid generation, used nested loops to ensure that rows and columns are filled exactly as intended
 
-let isDrawing = false;
-
 document.addEventListener("mousedown", () => {
-  isDrawing = true;
   clearSelection();
   sketchContainer.addEventListener("mouseover", colorBlack);
 });
 
 document.addEventListener("mouseup", () => {
-  isDrawing = false;
   sketchContainer.removeEventListener("mouseover", colorBlack);
 });
 
@@ -56,8 +58,22 @@ function clearSelection() {
 
 function colorBlack(event) {
   //Check if the element that triggered the event has the gridsquare class
-  if (isDrawing && event.target.classList.contains("gridsquare")) {
+  if (event.target.classList.contains("gridsquare")) {
     //Change the background color of a single square to black
     event.target.style.backgroundColor = "black";
   }
+}
+
+function toggleGrid() {
+  const gridSquares = document.querySelectorAll(".sketch_container > div");
+
+  gridSquares.forEach((square) => {
+    if (grid) {
+      square.style.outline = "solid 1px rgba(204, 204, 204, 0.226)";
+    } else {
+      square.style.outline = "none";
+    }
+  });
+  grid = !grid;
+  console.log("toggle clicked");
 }
