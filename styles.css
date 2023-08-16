@@ -37,6 +37,7 @@ body {
 }
 
 .sketch_container {
+  background-color: white;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -48,7 +49,7 @@ body {
 }
 
 .gridsquare {
-  background: #eeeeee;
+  background-color: rgb(255, 255, 255, 255);
 }
 .footer {
   text-align: center;
