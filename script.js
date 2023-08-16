@@ -213,22 +213,22 @@ function toggleGrid() {
 
 function changeGridStatus() {
   if (grid === true) {
-    gridStatus.textContent = "grid: ON";
+    gridStatus.textContent = "GRID: ON";
     console.log(gridStatus);
   } else if (grid === false) {
-    gridStatus.textContent = "grid: OFF";
+    gridStatus.textContent = "GRID: OFF";
     console.log(gridStatus);
   }
 }
 
 function currentModeStatus() {
   if (rgb === false && drawing === true) {
-    currentMode.textContent = "mode: BLACK";
+    currentMode.textContent = "MODE: BLACK";
   } else if (rgb === true && drawing == true) {
-    currentMode.textContent = "mode: RAINBOW";
+    currentMode.textContent = "MODE: RAINBOW";
   } else if (drawing === false && darken === true) {
-    currentMode.textContent = "mode: DARKENING";
+    currentMode.textContent = "MODE: DARKENING";
   } else if (drawing === false && lighten === true) {
-    currentMode.textContent = "mode: LIGHTENING";
+    currentMode.textContent = "MODE: LIGHTENING";
   }
 }
