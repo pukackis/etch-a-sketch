@@ -2,6 +2,9 @@
 
 let grid = true;
 let rgb = false;
+let drawing = false;
+let darken = false;
+let lighten = false;
 
 const sketchContainer = document.querySelector(".sketch_container");
 
@@ -17,6 +20,14 @@ const toggleRGBButton = document
   .querySelector("#toggle_rgb")
   .addEventListener("click", toggleRGB);
 
+const lightenButton = document
+  .querySelector("#darken")
+  .addEventListener("click", darkening);
+
+const ligthenButton = document
+  .querySelector("#lighten")
+  .addEventListener("click", lightening);
+
 function buttonPrompt() {
   //Clears sketching area before starting
   sketchContainer.replaceChildren();
@@ -29,6 +40,10 @@ function buttonPrompt() {
 function generateGrid(value) {
   grid = true;
   rgb = false;
+  drawing = true;
+  darken = false;
+  lighten = false;
+
   if (value <= 100) {
     // fills the remaining columns
     for (let i = 0; i < value; i++) {
@@ -48,18 +63,26 @@ function generateGrid(value) {
 
 document.addEventListener("mousedown", () => {
   clearSelection();
-  if (rgb === false) {
+  if (rgb === false && drawing === true) {
     sketchContainer.addEventListener("mouseover", colorBlack);
-  } else {
+  } else if (drawing === true) {
     sketchContainer.addEventListener("mouseover", colorRGB);
+  } else if (drawing === false && lighten === true) {
+    sketchContainer.addEventListener("mouseover", lightening);
+  } else if (drawing === false && darken === true) {
+    sketchContainer.addEventListener("mouseover", darkening);
   }
 });
 
 document.addEventListener("mouseup", () => {
-  if (rgb === false) {
+  if (rgb === false && drawing === true) {
     sketchContainer.removeEventListener("mouseover", colorBlack);
-  } else {
+  } else if (drawing === true) {
     sketchContainer.removeEventListener("mouseover", colorRGB);
+  } else if (drawing === false && lighten === true) {
+    sketchContainer.removeEventListener("mouseover", lightening);
+  } else if (drawing === false && darken === true) {
+    sketchContainer.removeEventListener("mouseover", darkening);
   }
 });
 
@@ -74,15 +97,19 @@ function clearSelection() {
 function colorBlack(event) {
   //Check if the element that triggered the event has the gridsquare class
   if (event.target.classList.contains("gridsquare")) {
+    event.target.style.opacity = "100%";
+
     //Change the background color of a single square to black
-    event.target.style.backgroundColor = "black";
+    event.target.style.backgroundColor = `rgb(0,0,0)`;
   }
 }
 
 function colorRGB(event) {
   //Check if the element that triggered the event has the gridsquare class
   if (event.target.classList.contains("gridsquare")) {
-    //Change the background color of a single square to black
+    event.target.style.opacity = "100%";
+    //Change the background color of a single square to random rgb color
+
     event.target.style.backgroundColor = `rgb(
       ${Math.random() * 256},
       ${Math.random() * 256},
@@ -91,7 +118,66 @@ function colorRGB(event) {
   }
 }
 
+function darkening(event) {
+  //Check if the element that triggered the event has the gridsquare class
+  drawing = false;
+  darken = true;
+  lighten = false;
+  if (event.target.classList.contains("gridsquare")) {
+    let currentColor = window.getComputedStyle(event.target).backgroundColor;
+    let r, g, b;
+
+    if (currentColor.startsWith("rgb")) {
+      const rgbValues = currentColor.match(/\d+/g);
+      r = parseInt(rgbValues[0]);
+      g = parseInt(rgbValues[1]);
+      b = parseInt(rgbValues[2]);
+    } else {
+      r = g = b = 0;
+    }
+
+    r = Math.max(0, r - Math.round(r * 0.25));
+    g = Math.max(0, g - Math.round(g * 0.25));
+    b = Math.max(0, b - Math.round(b * 0.25));
+
+    event.target.style.backgroundColor = `rgb(${r},${g},${b})`;
+  }
+  console.log(drawing);
+  console.log(lighten);
+  console.log(darken);
+}
+
+function lightening(event) {
+  //Check if the element that triggered the event has the gridsquare class
+  drawing = false;
+  lighten = true;
+  darken = false;
+  if (event.target.classList.contains("gridsquare")) {
+    let currentColor = window.getComputedStyle(event.target).backgroundColor;
+    let r, g, b;
+
+    if (currentColor.startsWith("rgb")) {
+      const rgbValues = currentColor.match(/\d+/g);
+      r = parseInt(rgbValues[0]);
+      g = parseInt(rgbValues[1]);
+      b = parseInt(rgbValues[2]);
+      console.log(rgbValues);
+    } else {
+      r = g = b = 255;
+    }
+
+    r = Math.min(255, r + Math.round((255 - r) * 0.25));
+    g = Math.min(255, g + Math.round((255 - g) * 0.25));
+    b = Math.min(255, b + Math.round((255 - b) * 0.25));
+
+    event.target.style.backgroundColor = `rgb(${r},${g},${b})`;
+  }
+}
+
 function toggleRGB() {
+  drawing = true;
+  darken = false;
+  lighten = false;
   rgb = !rgb;
 }
 
