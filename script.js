@@ -28,6 +28,9 @@ const ligthenButton = document
   .querySelector("#lighten")
   .addEventListener("click", lightening);
 
+const gridStatus = document.querySelector(".grid");
+const currentMode = document.querySelector(".mode");
+
 function buttonPrompt() {
   //Clears sketching area before starting
   sketchContainer.replaceChildren();
@@ -58,6 +61,8 @@ function generateGrid(value) {
   } else {
     alert("Invalid input, please use numbers between 1 and 100");
   }
+  toggleGrid();
+  currentModeStatus();
 }
 // generateGrid function is responsible for grid generation, used nested loops to ensure that rows and columns are filled exactly as intended
 
@@ -95,6 +100,10 @@ function clearSelection() {
 }
 
 function colorBlack(event) {
+  let rgb = false;
+  let drawing = true;
+  let darken = false;
+  let lighten = false;
   //Check if the element that triggered the event has the gridsquare class
   if (event.target.classList.contains("gridsquare")) {
     event.target.style.opacity = "100%";
@@ -105,6 +114,10 @@ function colorBlack(event) {
 }
 
 function colorRGB(event) {
+  let rgb = true;
+  let drawing = true;
+  let darken = false;
+  let lighten = false;
   //Check if the element that triggered the event has the gridsquare class
   if (event.target.classList.contains("gridsquare")) {
     event.target.style.opacity = "100%";
@@ -142,9 +155,7 @@ function darkening(event) {
 
     event.target.style.backgroundColor = `rgb(${r},${g},${b})`;
   }
-  console.log(drawing);
-  console.log(lighten);
-  console.log(darken);
+  currentModeStatus();
 }
 
 function lightening(event) {
@@ -172,6 +183,8 @@ function lightening(event) {
 
     event.target.style.backgroundColor = `rgb(${r},${g},${b})`;
   }
+  currentModeStatus();
+  e;
 }
 
 function toggleRGB() {
@@ -179,6 +192,7 @@ function toggleRGB() {
   darken = false;
   lighten = false;
   rgb = !rgb;
+  currentModeStatus();
 }
 
 // Function to toggle grid on or off
@@ -193,5 +207,28 @@ function toggleGrid() {
       square.style.outline = "none";
     }
   });
+  changeGridStatus();
   grid = !grid; // change boolean value of grid on button press
+}
+
+function changeGridStatus() {
+  if (grid === true) {
+    gridStatus.textContent = "grid: ON";
+    console.log(gridStatus);
+  } else if (grid === false) {
+    gridStatus.textContent = "grid: OFF";
+    console.log(gridStatus);
+  }
+}
+
+function currentModeStatus() {
+  if (rgb === false && drawing === true) {
+    currentMode.textContent = "mode: BLACK";
+  } else if (rgb === true && drawing == true) {
+    currentMode.textContent = "mode: RAINBOW";
+  } else if (drawing === false && darken === true) {
+    currentMode.textContent = "mode: DARKENING";
+  } else if (drawing === false && lighten === true) {
+    currentMode.textContent = "mode: LIGHTENING";
+  }
 }
